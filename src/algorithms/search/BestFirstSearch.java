@@ -1,33 +1,62 @@
 package algorithms.search;
+
+import algorithms.mazeGenerators.Position;
 import java.util.*;
 
 public class BestFirstSearch extends ASearchingAlgorithm {
-    @Override public Solution solve(ISearchable domain) {
-        PriorityQueue<AState> open = new PriorityQueue<>();
-        Map<AState, Double> gScore = new HashMap<>();
+
+    @Override
+    public String getName() {
+        return "BestFirstSearch";
+    }
+
+    @Override
+    public Solution solve(ISearchable domain) {
+        this.currentDomain = domain; // store reference for heuristic use
+
+        if (domain instanceof SearchableMaze) {
+            ((SearchableMaze) domain).resetStates(); // reset visited/cost for reuse
+        }
+
         AState start = domain.getStartState();
-        AState goal = domain.getGoalState();
-        gScore.put(start, 0.0);
+        AState goal  = domain.getGoalState();
+
+        PriorityQueue<AState> open = new PriorityQueue<>(Comparator.comparingDouble(this::heuristic)); // queue by h(n)
+        Set<AState> closed = new HashSet<>(); // track visited states
+
         open.add(start);
-        Set<AState> closed = new HashSet<>();
+        start.setCost(0); // optional init, not used in heuristic-only
+
         while (!open.isEmpty()) {
-            AState cur = open.poll();
+            AState current = open.poll(); // get state with lowest h(n)
             evaluated++;
-            if (cur.equals(goal)) return Solution.reconstruct(cur);
-            closed.add(cur);
-            for (AState n : domain.getPossibleStates(cur)) {
-                if (closed.contains(n)) continue;
-                double tentative = cur.getCost() + 1; // regular + diag handled in adapter
-                if (tentative < gScore.getOrDefault(n, Double.POSITIVE_INFINITY)) {
-                    n.setCameFrom(cur);
-                    gScore.put(n, tentative);
-                    open.remove(n);
-                    open.add(n);
+
+            if (current.equals(goal)) {
+                return Solution.reconstruct(current); // goal reached, build path
+            }
+
+            closed.add(current); // mark as visited
+
+            for (AState neighbor : domain.getPossibleStates(current)) {
+                if (closed.contains(neighbor)) continue; // skip visited
+
+                if (!open.contains(neighbor)) {
+                    neighbor.setCameFrom(current); // track path
+                    open.add(neighbor); // enqueue by heuristic
                 }
             }
         }
-        return new Solution(new ArrayList<>());
+
+        return new Solution(new ArrayList<>()); // return empty if no path
     }
 
-    @Override public String getName() { return "BestFirstSearch"; }
+    private double heuristic(AState state) { // manhattan distance to goal
+        Position goalPos = ((MazeState) currentDomain.getGoalState()).getPosition();
+        Position curPos = ((MazeState) state).getPosition();
+
+        return Math.abs(goalPos.getRowIndex() - curPos.getRowIndex()) +
+                Math.abs(goalPos.getColumnIndex() - curPos.getColumnIndex());
+    }
+
+    private ISearchable currentDomain; // needed for heuristic access
 }
