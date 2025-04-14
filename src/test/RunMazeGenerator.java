@@ -1,12 +1,13 @@
 package test;
 import algorithms.mazeGenerators.*;
 
+// the test of part A
 public class RunMazeGenerator {
     public static void main(String[] args) {
         testMazeGenerator(new EmptyMazeGenerator());
-        System.out.println("\n\n\n");
+        System.out.println("\n\n");
         testMazeGenerator(new SimpleMazeGenerator());
-        System.out.println("\n\n\n");
+        System.out.println("\n\n");
         testMazeGenerator(new MyMazeGenerator());
     }
     private static void testMazeGenerator(IMazeGenerator mazeGenerator) {
