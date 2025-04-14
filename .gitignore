@@ -1,0 +1,26 @@
+# Ignore build files
+/bin/
+/build/
+/out/
+/target/
+
+# Ignore IntelliJ settings
+.idea/
+*.iml
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore compiled class files
+*.class
+
+# Ignore logs
+*.log
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore dependency cache (optional)
+.gradle/
+.mvn/
