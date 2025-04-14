@@ -22,7 +22,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
 
         AState start = domain.getStartState();
         AState goal  = domain.getGoalState();
-
+        start.setCost(0); // sets the cost to 0
         open.add(start);     // enqueue start state
         visited.add(start);  // mark start as visited
 

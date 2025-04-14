@@ -13,7 +13,7 @@ public abstract class AState implements Comparable<AState> {
 
     //getters / setters
     public void   setCost(double cost) { this.cost = cost; }
-
+    public double getCost() { return cost; }
     public AState getCameFrom()                  { return cameFrom; }
     public void   setCameFrom(AState cameFrom)   { this.cameFrom = cameFrom; }
 

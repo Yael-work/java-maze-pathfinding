@@ -20,7 +20,7 @@ public class MazeState extends AState {
         if (this == o) return true; // same object
         if (!(o instanceof MazeState)) return false; // different type
         MazeState other = (MazeState) o;
-        return position.equals(other.position); // same position means equal
+        return this.position.equals(other.position); // same position means equal
     }
 
     @Override

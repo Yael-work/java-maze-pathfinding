@@ -17,6 +17,7 @@ public class Solution {
     }
 
     public static Solution reconstruct(AState goal) {
+        if (goal == null) return new Solution(new ArrayList<>()); // fail-safe
         ArrayList<AState> path = new ArrayList<>();
         for (AState cur = goal; cur != null; cur = cur.getCameFrom()) path.add(cur); // walk back via cameFrom
         Collections.reverse(path); // reverse to get start → goal
