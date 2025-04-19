@@ -16,10 +16,6 @@ public class EmptyMazeGenerator extends AMazeGenerator {
         maze.setStartPosition(start);
         maze.setGoalPosition(goal);
 
-//        Position start = new Position(0,0);
-//        Position end = new Position(rows - 1,columns -1);
-//        maze.setStartPosition(start);
-//        maze.setGoalPosition(end);
         return maze;
     }
 
