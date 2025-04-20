@@ -1,5 +1,3 @@
-package test;
-
 import algorithms.mazeGenerators.*;
 import algorithms.search.*;
 import org.junit.jupiter.api.*;
