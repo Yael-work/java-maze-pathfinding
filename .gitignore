@@ -1,26 +1,24 @@
-# Ignore build files
-/bin/
-/build/
-/out/
-/target/
+#Ignore compiled class files
+*.class
 
-# Ignore IntelliJ settings
+# Ignore package files
 .idea/
 *.iml
 
-# Ignore VS Code settings
-.vscode/
-
-# Ignore compiled class files
-*.class
-
-# Ignore logs
-*.log
-
-# Ignore OS-specific files
+# Ignore macOS system files
 .DS_Store
-Thumbs.db
 
-# Ignore dependency cache (optional)
+# Ignore log or temporary files
+*.log
+*.tmp
+
+
+
+# Ignore IntelliJ run configurations
+*.iws
+*.ipr
+
+# Ignore Maven and Gradle caches if present
+target/
 .gradle/
-.mvn/
+build/
