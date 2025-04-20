@@ -1,5 +1,6 @@
+package algorithms.search;
+
 import algorithms.mazeGenerators.*;
-import algorithms.search.*;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -209,7 +210,7 @@ public class BestFirstSearchTest {
     }
 
     public void testLargeMazePerformance() {
-        Maze m = currentGenerator.generate(100, 100);
+        Maze m = currentGenerator.generate(1000, 1000);
         SearchableMaze sm = new SearchableMaze(m);
         sm.resetStates();
         BestFirstSearch bfs = new BestFirstSearch();
