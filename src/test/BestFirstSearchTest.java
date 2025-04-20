@@ -43,17 +43,25 @@ public class BestFirstSearchTest {
             allTests.add(DynamicTest.dynamicTest("Large maze performance (simple check)", this::testLargeMazePerformance));
         }
 
+        // Additional robustness tests
+        allTests.add(DynamicTest.dynamicTest("Negative maze dimensions", this::testNegativeMazeDimensions));
+        allTests.add(DynamicTest.dynamicTest("Null start or goal position", this::testNullStartOrGoalPosition));
+        allTests.add(DynamicTest.dynamicTest("Invalid maze cell access", this::testInvalidCellAccess));
+        allTests.add(DynamicTest.dynamicTest("Maze.setCell out of bounds", this::testMazeSetCellOutOfBounds));
+        allTests.add(DynamicTest.dynamicTest("Maze.getCell out of bounds", this::testMazeGetCellOutOfBounds));
+        allTests.add(DynamicTest.dynamicTest("Maze with null grid", this::testMazeWithNullGrid));
+        allTests.add(DynamicTest.dynamicTest("Null MazeState position", this::testNullMazeStatePosition));
+        allTests.add(DynamicTest.dynamicTest("SearchableMaze with null", this::testSearchableMazeWithNull));
+        allTests.add(DynamicTest.dynamicTest("SearchableMaze start/goal on wall", this::testSearchableMazeStartGoalOnWall));
+        allTests.add(DynamicTest.dynamicTest("Unreachable goal returns empty path", this::testUnreachableGoal));
+        allTests.add(DynamicTest.dynamicTest("Reconstruct with null throws", this::testReconstructNull));
+
         return allTests;
     }
 
     public void nullDomain() {
         BestFirstSearch bfs = new BestFirstSearch();
-        try {
-            bfs.solve(null);
-            fail("Expected NullPointerException");
-        } catch (NullPointerException e) {
-            // expected
-        }
+        assertThrows(NullPointerException.class, () -> bfs.solve(null));
     }
 
     public void trivialMaze() {
@@ -212,4 +220,76 @@ public class BestFirstSearchTest {
         long duration = System.currentTimeMillis() - start;
         assertTrue(duration < 60000);
     }
+
+    public void testNegativeMazeDimensions() {
+        assertThrows(IllegalArgumentException.class, () -> new Maze(-5, 5));
+        assertThrows(IllegalArgumentException.class, () -> new Maze(5, -5));
+        assertThrows(IllegalArgumentException.class, () -> new Maze(-1, -1));
+    }
+
+    public void testNullStartOrGoalPosition() {
+        int[][] grid = {{0, 0}, {0, 0}};
+        assertThrows(NullPointerException.class, () -> new Maze(grid, null, new Position(1, 1)));
+        assertThrows(NullPointerException.class, () -> new Maze(grid, new Position(0, 0), null));
+    }
+
+    public void testInvalidCellAccess() {
+        Maze m = new Maze(5, 5);
+        assertThrows(IndexOutOfBoundsException.class, () -> m.setCell(-1, 0, 0));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.setCell(0, -1, 0));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.setCell(5, 0, 0));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.setCell(0, 5, 0));
+    }
+    public void testMazeSetCellOutOfBounds() {
+        Maze maze = new Maze(5, 5);
+        assertThrows(IndexOutOfBoundsException.class, () -> maze.setCell(5, 0, 1));
+        assertThrows(IndexOutOfBoundsException.class, () -> maze.setCell(-1, 0, 1));
+        assertThrows(IndexOutOfBoundsException.class, () -> maze.setCell(0, 5, 1));
+    }
+
+    public void testMazeGetCellOutOfBounds() {
+        Maze maze = new Maze(5, 5);
+        assertThrows(IndexOutOfBoundsException.class, () -> maze.getCell(10, 10));
+    }
+
+    public void testMazeWithNullGrid() {
+        assertThrows(NullPointerException.class, () -> new Maze(null, new Position(0, 0), new Position(1, 1)));
+    }
+
+    public void testNullMazeStatePosition() {
+
+        assertThrows(NullPointerException.class, () -> new MazeState(null));
+    }
+
+
+    public void testSearchableMazeWithNull() {
+        assertThrows(NullPointerException.class, () -> new SearchableMaze(null));
+    }
+
+
+    public void testSearchableMazeStartGoalOnWall() {
+        Maze m = new Maze(3, 3);
+        m.setCell(0, 0, 1);  // Make start a wall
+        m.setStartPosition(new Position(0, 0));
+        m.setGoalPosition(new Position(2, 2));
+        assertDoesNotThrow(() -> new SearchableMaze(m));
+    }
+
+
+    public void testUnreachableGoal() {
+        Maze m = new Maze(3, 3);
+        for (int r = 0; r < 3; r++) for (int c = 0; c < 3; c++) m.setCell(r, c, 1);
+        m.setCell(0, 0, 0);
+        m.setStartPosition(new Position(0, 0));
+        m.setGoalPosition(new Position(2, 2));
+        SearchableMaze sm = new SearchableMaze(m);
+        BestFirstSearch bfs = new BestFirstSearch();
+        assertTrue(bfs.solve(sm).getSolutionPath().isEmpty());
+    }
+
+    public void testReconstructNull() {
+        assertThrows(NullPointerException.class, () -> Solution.reconstruct(null));
+    }
+
 }
+
