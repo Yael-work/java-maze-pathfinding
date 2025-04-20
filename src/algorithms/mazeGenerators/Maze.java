@@ -8,12 +8,25 @@ public class Maze {
     private Position startPosition;
     private Position goalPosition;
 
+
     public Maze(int rows , int columns) {
-    this.rows = rows;
-    this.columns = columns;
-    this.map = new int[rows][columns];
+        if (rows < 0 || columns < 0) {
+            throw new IllegalArgumentException("Maze must have non negative rows and columns");
+        }
+        this.rows = rows;
+        this.columns = columns;
+        this.map = new int[rows][columns];
     }
+
     public Maze(int[][] map, Position start, Position goal) {
+        if (start == null || goal == null || map == null) {
+            throw new NullPointerException("Start, goal and map must not be null");
+        }
+        if (start.getRowIndex() < 0 || start.getColumnIndex() < 0 || goal.getRowIndex() < 0 || goal.getColumnIndex() < 0 )
+        {
+            throw new IllegalArgumentException("Maze must have non negative rows and columns");
+        }
+
         this.rows = map.length;
         this.columns = map[0].length;
         this.map = new int[rows][columns];

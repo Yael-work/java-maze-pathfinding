@@ -8,6 +8,9 @@ public class MazeState extends AState {
 
     public MazeState(Position pos) {
         super(Double.POSITIVE_INFINITY); // initial cost is infinite
+
+        if (pos == null)
+            throw new NullPointerException("Position cannot be null");
         this.position = pos;
     }
 

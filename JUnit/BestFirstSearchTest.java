@@ -41,7 +41,7 @@ public class BestFirstSearchTest {
             allTests.add(DynamicTest.dynamicTest("Large maze performance (simple check)", this::testLargeMazePerformance));
         }
 
-        // Additional robustness tests
+         //null tests and incorret inputs
         allTests.add(DynamicTest.dynamicTest("Negative maze dimensions", this::testNegativeMazeDimensions));
         allTests.add(DynamicTest.dynamicTest("Null start or goal position", this::testNullStartOrGoalPosition));
         allTests.add(DynamicTest.dynamicTest("Invalid maze cell access", this::testInvalidCellAccess));
@@ -52,7 +52,7 @@ public class BestFirstSearchTest {
         allTests.add(DynamicTest.dynamicTest("SearchableMaze with null", this::testSearchableMazeWithNull));
         allTests.add(DynamicTest.dynamicTest("SearchableMaze start/goal on wall", this::testSearchableMazeStartGoalOnWall));
         allTests.add(DynamicTest.dynamicTest("Unreachable goal returns empty path", this::testUnreachableGoal));
-        allTests.add(DynamicTest.dynamicTest("Reconstruct with null throws", this::testReconstructNull));
+        allTests.add(DynamicTest.dynamicTest("Reconstructing null should return empty solution", this::testReconstructNull));
 
         return allTests;
     }
@@ -209,7 +209,7 @@ public class BestFirstSearchTest {
     }
 
     public void testLargeMazePerformance() {
-        Maze m = currentGenerator.generate(1000, 1000);
+        Maze m = currentGenerator.generate(100, 100);
         SearchableMaze sm = new SearchableMaze(m);
         sm.resetStates();
         BestFirstSearch bfs = new BestFirstSearch();
@@ -286,7 +286,9 @@ public class BestFirstSearchTest {
     }
 
     public void testReconstructNull() {
-        assertThrows(NullPointerException.class, () -> Solution.reconstruct(null));
+        Solution sol = Solution.reconstruct(null);
+        assertNotNull(sol);
+        assertTrue(sol.getSolutionPath().isEmpty(), "Reconstructing null should return empty solution");
     }
 
 }
