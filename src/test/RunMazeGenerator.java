@@ -1,7 +1,9 @@
 package test;
 import algorithms.mazeGenerators.*;
 
-// the test of part A
+/** the test of part A
+ * this class is used to test the maze generator
+ */
 public class RunMazeGenerator {
     public static void main(String[] args) {
         testMazeGenerator(new EmptyMazeGenerator());

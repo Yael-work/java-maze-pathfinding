@@ -1,7 +1,11 @@
 package algorithms.search;
 
 import algorithms.mazeGenerators.Position;
-
+/**
+ * This class represents a state in a maze search problem.
+ * It extends AState to include position information.
+ * The position is immutable and cannot be changed after creation.
+ */
 public class MazeState extends AState {
 
     private final Position position; // position in the maze grid

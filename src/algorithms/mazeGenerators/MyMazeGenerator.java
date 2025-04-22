@@ -4,6 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
+/**
+ * A maze generator that uses a custom algorithm to generate random mazes.
+ * <p>
+ * This implementation is typically used for testing search algorithms
+ * in a 2D grid maze environment.
+ * </p>
+ *
+ * See also: {@link Maze}, {@link IMazeGenerator}
+ */
 
 public class MyMazeGenerator extends AMazeGenerator {
     @Override

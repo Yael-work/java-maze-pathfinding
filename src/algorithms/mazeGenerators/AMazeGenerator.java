@@ -1,6 +1,9 @@
 package algorithms.mazeGenerators;
 import java.util.Random;
-
+/**
+ * This abstract class implements the IMazeGenerator interface and provides a method to measure the time taken to generate a maze.
+ * It also provides a method to get a random border position in the maze.
+ */
 public abstract class AMazeGenerator implements IMazeGenerator {
     protected static final Random random = new Random();
 

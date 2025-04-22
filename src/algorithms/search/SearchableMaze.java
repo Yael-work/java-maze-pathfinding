@@ -5,7 +5,15 @@ import algorithms.mazeGenerators.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-/** adapter that turns a maze into an ISearchable graph */
+/**
+ * An adapter class that wraps a {@link Maze} object and exposes it as an
+ * {@link ISearchable} domain, allowing search algorithms to operate on mazes.
+ * <p>
+ * Each maze cell is treated as a state in the search space, with allowed
+ * transitions representing valid moves between cells.
+ * </p>
+ */
+
 public class SearchableMaze implements ISearchable {
 
     private final Maze maze;                     // the underlying maze

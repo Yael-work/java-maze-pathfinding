@@ -2,6 +2,11 @@ package algorithms.search;
 
 import java.util.*;
 
+/**
+ * This class implements the Depth First Search (DFS) algorithm for solving search problems.
+ * It extends the ASearchingAlgorithm class and provides a specific implementation
+ * for the solve method.
+ */
 public class DepthFirstSearch extends ASearchingAlgorithm {
 
     @Override

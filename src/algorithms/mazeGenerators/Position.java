@@ -1,5 +1,8 @@
 package algorithms.mazeGenerators;
-
+/**
+ * This class represents a position in a 2D grid.
+ * It contains the row and column indices of the position.
+ */
 public class Position {
     private final int row;
     private final int column;

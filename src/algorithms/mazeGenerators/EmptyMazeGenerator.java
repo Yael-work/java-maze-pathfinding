@@ -1,5 +1,9 @@
 package algorithms.mazeGenerators;
-
+/**
+ * This class generates an empty maze with a start and goal position.
+ * The maze is represented as a grid of cells, where each cell is either a wall or a path.
+ * In this case, the maze is empty, meaning all cells are paths.
+ */
 public class EmptyMazeGenerator extends AMazeGenerator {
     @Override
     public Maze generate(int rows, int columns){

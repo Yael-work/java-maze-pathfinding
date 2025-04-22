@@ -1,5 +1,10 @@
 package algorithms.search;
 
+/**
+ * this is the base class for any state in a search problem.
+ * it keeps track of cost, where it came from, and its unique identifier.
+ * used by search algorithms to build paths and track progress.
+ */
 
 public abstract class AState implements Comparable<AState> {
 

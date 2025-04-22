@@ -3,6 +3,11 @@ package algorithms.search;
 import algorithms.mazeGenerators.Position;
 import java.util.*;
 
+/**
+ * BestFirstSearch is a search algorithm that uses a heuristic to guide the search.
+ * It evaluates nodes based on their cost and heuristic value,
+ * prioritizing those that are expected to lead to the goal fastest.
+ */
 public class BestFirstSearch extends ASearchingAlgorithm {
 
     @Override

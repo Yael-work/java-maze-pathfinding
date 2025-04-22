@@ -1,7 +1,12 @@
 package algorithms.search;
 
 import java.util.*;
-
+ /**
+  * Implements the Breadth-First Search (BFS) algorithm for searching a solution in a given domain.
+  * This algorithm explores all possible states level by level, ensuring the shortest path is found.
+  * It uses a queue to manage the states to be explored and a set to track visited states.
+  * should be more efficient than BestFirstSearch.
+  */
 public class BreadthFirstSearch extends ASearchingAlgorithm {
 
     @Override

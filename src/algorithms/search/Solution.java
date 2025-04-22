@@ -2,6 +2,11 @@ package algorithms.search;
 
 import java.util.ArrayList;
 import java.util.Collections;
+/**
+ * holds the result of running a search algorithm.
+ * stores the full path from start to goal as a list of states.
+ * can be printed or used to analyze how the algorithm solved the problem.
+ */
 
 public class Solution {
 

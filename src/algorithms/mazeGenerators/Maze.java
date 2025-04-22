@@ -1,5 +1,9 @@
 package algorithms.mazeGenerators;
 import java.util.Arrays;
+/**
+ * represents a 2d maze with walls and paths.
+ * includes a start and end position, and can be used as a base for search problems.
+ */
 
 public class Maze {
     private final int columns;

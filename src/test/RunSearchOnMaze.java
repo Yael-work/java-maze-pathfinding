@@ -3,6 +3,18 @@ import algorithms.mazeGenerators.*;
 import algorithms.search.*;
 import java.util.ArrayList;
 public class RunSearchOnMaze {
+    /**
+     * Demonstrates running various search algorithms on a randomly generated maze.
+     * <p>
+     * This class generates a 30x30 maze using {@link MyMazeGenerator}, converts it into
+     * a {@link SearchableMaze}, and solves it using three search strategies:
+     * {@link BreadthFirstSearch}, {@link DepthFirstSearch}, and {@link BestFirstSearch}.
+     * </p>
+     *
+     * Intended for testing and comparing search algorithms based on pathfinding
+     * performance and number of evaluated nodes.
+     */
+
     public static void main(String[] args) {
         IMazeGenerator mg = new MyMazeGenerator();
         Maze maze = mg.generate(30, 30);

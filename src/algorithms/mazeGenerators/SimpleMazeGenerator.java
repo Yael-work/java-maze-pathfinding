@@ -3,7 +3,12 @@ package algorithms.mazeGenerators;
 import java.util.Random;
 import java.util.LinkedList;
 import java.util.Queue;
-
+/**
+ * SimpleMazeGenerator is a concrete implementation of the AMazeGenerator class.
+ * It generates a simple maze with a random start and goal position, and a limited number of walls generated
+ * randomly implementing probabilistic generation.
+ * The maze is guaranteed to be reachable from the start to the goal position.
+ */
 public class SimpleMazeGenerator extends AMazeGenerator {
 
     @Override
