@@ -18,13 +18,13 @@ public class MyDecompressorInputStream extends InputStream {
 
     public MyDecompressorInputStream(InputStream in) {
         this.in = in;
-        this.inflater = new Inflater(); // setup inflater for decompression
+        this.inflater = new Inflater(); // setup inflater for  decompression
     }
 
     @Override
     public int read() throws IOException {
         if (bufferPos >= bufferLen) {
-            bufferLen = in.read(buffer); // refill buffer if empty
+            bufferLen = in.read(buffer); //refill buffer if empty
             bufferPos = 0;
             if (bufferLen == -1) {
                 return -1;
@@ -37,10 +37,10 @@ public class MyDecompressorInputStream extends InputStream {
     public int read(byte[] b) throws IOException {
         if (b.length < 12) throw new IOException("Byte array too small");
 
-        int bytesRead = in.read(b, 0, 12); // read uncompressed header
+        int bytesRead = in.read(b, 0, 12);// read uncompressed header
         if (bytesRead != 12) throw new IOException("Failed to read header");
 
-        byte[] compressedData = new byte[b.length * 2]; // allocate buffer for compressed data
+        byte[] compressedData = new byte[b.length * 2]; // allocate  buffer for compressed data
         int compressedSize = 0;
         int read;
 
@@ -56,13 +56,13 @@ public class MyDecompressorInputStream extends InputStream {
         } catch (Exception e) {
             throw new IOException("Decompression failed", e);
         } finally {
-            inflater.end(); // release inflater resources
+            inflater.end(); //release inflater resources
         }
     }
 
     @Override
     public void close() throws IOException {
-        inflater.end(); // release inflater
+        inflater.end(); //release inflater
         in.close();
         super.close();
     }

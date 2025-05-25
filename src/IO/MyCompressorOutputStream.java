@@ -16,7 +16,7 @@ public class MyCompressorOutputStream extends OutputStream {
 
     public MyCompressorOutputStream(OutputStream out) {
         this.out = out;
-        this.deflater = new Deflater(Deflater.BEST_COMPRESSION); // use best compression level
+        this.deflater = new Deflater(Deflater.BEST_COMPRESSION); //use best compression level
     }
 
     @Override
@@ -24,7 +24,7 @@ public class MyCompressorOutputStream extends OutputStream {
         byte[] data = {(byte) b}; // single byte array for compression
         deflater.setInput(data);
         while (!deflater.needsInput()) {
-            deflate(); // compress and write to output
+            deflate(); // compress  and write to output
         }
     }
 
@@ -32,9 +32,9 @@ public class MyCompressorOutputStream extends OutputStream {
     public void write(byte[] b) throws IOException {
         if (b.length < 12) throw new IOException("Byte array too small");
 
-        out.write(b, 0, 12); // write header uncompressed
+        out.write(b, 0, 12); //write header uncompressed
 
-        deflater.setInput(b, 12, b.length - 12); // compress the data after the header
+        deflater.setInput(b, 12, b.length - 12); //compress the data after the header
         deflater.finish();
 
         while (!deflater.finished()) {
@@ -43,7 +43,7 @@ public class MyCompressorOutputStream extends OutputStream {
     }
 
     private void deflate() throws IOException {
-        int count = deflater.deflate(buffer); // compress data into buffer
+        int count = deflater.deflate(buffer); //compress data into buffer
         if (count > 0) {
             out.write(buffer, 0, count); // write compressed bytes to output
         }

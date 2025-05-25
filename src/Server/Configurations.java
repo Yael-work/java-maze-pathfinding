@@ -11,7 +11,7 @@ public class Configurations {
     private Configurations() {
         properties = new Properties();
         try {
-            properties.load(new FileInputStream("resources/config.properties")); // load config file
+            properties.load(new FileInputStream("resources/config.properties")); //load config file
         } catch (IOException e) {
             e.printStackTrace();
         }
