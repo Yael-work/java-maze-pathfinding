@@ -11,7 +11,7 @@ public class Configurations {
     private Configurations() {
         properties = new Properties();
         try {
-            properties.load(new FileInputStream("resources/config.properties"));
+            properties.load(new FileInputStream("resources/config.properties")); // load config file
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -19,13 +19,13 @@ public class Configurations {
 
     public static Configurations getInstance() {
         if (instance == null) {
-            instance = new Configurations();
+            instance = new Configurations(); // singleton instance
         }
         return instance;
     }
 
     public int getThreadPoolSize() {
-        return Integer.parseInt(properties.getProperty("threadPoolSize", "4"));
+        return Integer.parseInt(properties.getProperty("threadPoolSize", "4")); // default pool size is 4
     }
 
     public String getMazeGeneratingAlgorithm() {

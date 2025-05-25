@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class ServerStrategySolveSearchProblem implements IServerStrategy {
-    private final HashMap<Integer, Solution> solutionCache = new HashMap<>();
+    private final HashMap<Integer, Solution> solutionCache = new HashMap<>(); // store solutions by maze hash
 
     @Override
     public void applyStrategy(InputStream inFromClient, OutputStream outToClient) {
@@ -18,32 +18,32 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
             ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
             toClient.flush();
 
-            Maze maze = (Maze) fromClient.readObject();
-            int hash = Arrays.hashCode(maze.toByteArray());
+            Maze maze = (Maze) fromClient.readObject(); // receive maze
+            int hash = Arrays.hashCode(maze.toByteArray()); // unique id for maze
 
             Solution solution;
-            File solFile = new File(System.getProperty("java.io.tmpdir") + "/maze_" + hash + ".sol");
+            File solFile = new File(System.getProperty("java.io.tmpdir") + "/maze_" + hash + ".sol"); // temp file for solution
 
             if (solFile.exists()) {
                 ObjectInputStream fromDisk = new ObjectInputStream(new FileInputStream(solFile));
-                solution = (Solution) fromDisk.readObject();
+                solution = (Solution) fromDisk.readObject(); // load cached solution
                 fromDisk.close();
             } else {
                 ISearchingAlgorithm searcher = (ISearchingAlgorithm) Class
                         .forName("algorithms.search." +
                                 Configurations.getInstance().getMazeSearchingAlgorithm())
-                        .getDeclaredConstructor().newInstance();
+                        .getDeclaredConstructor().newInstance(); // dynamic search algorithm
 
                 SearchableMaze searchableMaze = new SearchableMaze(maze);
-                solution = searcher.solve(searchableMaze);
+                solution = searcher.solve(searchableMaze); // solve the maze
 
                 ObjectOutputStream toDisk = new ObjectOutputStream(new FileOutputStream(solFile));
-                toDisk.writeObject(solution);
+                toDisk.writeObject(solution); // save solution to disk
                 toDisk.flush();
                 toDisk.close();
             }
 
-            toClient.writeObject(solution);
+            toClient.writeObject(solution); // send solution back to client
             toClient.flush();
         } catch (Exception e) {
             e.printStackTrace();

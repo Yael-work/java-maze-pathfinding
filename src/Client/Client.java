@@ -20,7 +20,7 @@ public class Client {
 
     public void communicateWithServer() {
         try (Socket serverSocket = new Socket(serverIP, serverPort)) {
-            strategy.applyStrategy(serverSocket.getInputStream(), serverSocket.getOutputStream());
+            strategy.applyStrategy(serverSocket.getInputStream(), serverSocket.getOutputStream()); // run strategy using server socket
         } catch (Exception e) {
             e.printStackTrace();
         }

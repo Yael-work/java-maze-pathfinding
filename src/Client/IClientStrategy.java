@@ -4,5 +4,5 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public interface IClientStrategy {
-    void clientStrategy(InputStream inFromServer, OutputStream outToServer);
+    void clientStrategy(InputStream inFromServer, OutputStream outToServer); // client logic implementation
 }

@@ -21,18 +21,18 @@ public class Server {
 
     public void start() {
         stop = false;
-        threadPool = Executors.newFixedThreadPool(Configurations.getInstance().getThreadPoolSize());
+        threadPool = Executors.newFixedThreadPool(Configurations.getInstance().getThreadPoolSize()); // create thread pool
 
         new Thread(() -> {
             try (ServerSocket serverSocket = new ServerSocket(port)) {
-                serverSocket.setSoTimeout(listeningIntervalMS);
+                serverSocket.setSoTimeout(listeningIntervalMS); // set timeout for accept
                 while (!stop) {
                     try {
-                        Socket clientSocket = serverSocket.accept();
+                        Socket clientSocket = serverSocket.accept(); // accept client
                         threadPool.execute(() -> {
                             try {
                                 strategy.applyStrategy(clientSocket.getInputStream(), clientSocket.getOutputStream());
-                                clientSocket.close();
+                                clientSocket.close(); // close after handling
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -42,12 +42,12 @@ public class Server {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }).start();
+        }).start(); // start server thread
     }
 
     public void stop() {
         stop = true;
         if (threadPool != null)
-            threadPool.shutdown();
+            threadPool.shutdown(); // shut down thread pool
     }
 }
