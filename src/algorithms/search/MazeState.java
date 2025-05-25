@@ -1,13 +1,18 @@
 package algorithms.search;
 
 import algorithms.mazeGenerators.Position;
+
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * This class represents a state in a maze search problem.
  * It extends AState to include position information.
  * The position is immutable and cannot be changed after creation.
  */
-public class MazeState extends AState {
-
+public class MazeState extends AState implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private final Position position; // position in the maze grid
 
     public MazeState(Position pos) {

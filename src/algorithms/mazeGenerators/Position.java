@@ -1,9 +1,15 @@
 package algorithms.mazeGenerators;
+
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * This class represents a position in a 2D grid.
  * It contains the row and column indices of the position.
  */
-public class Position {
+public class Position implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private final int row;
     private final int column;
 

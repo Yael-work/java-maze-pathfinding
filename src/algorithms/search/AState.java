@@ -1,13 +1,17 @@
 package algorithms.search;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * this is the base class for any state in a search problem.
  * it keeps track of cost, where it came from, and its unique identifier.
  * used by search algorithms to build paths and track progress.
  */
 
-public abstract class AState implements Comparable<AState> {
-
+public abstract class AState implements Comparable<AState> , Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     protected double cost;          // g(n): cost from start
     private AState cameFrom;        // back pointer to previous state
     protected boolean visited;      // used optionally to mark expansion

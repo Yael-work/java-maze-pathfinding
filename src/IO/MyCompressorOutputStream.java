@@ -2,17 +2,29 @@ package IO;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.zip.Deflater;
 
+/**
+ * An enhanced compressor that uses DEFLATE algorithm for better compression.
+ * This provides much better compression ratios than simple RLE for most data.
+ */
 public class MyCompressorOutputStream extends OutputStream {
     private final OutputStream out;
+    private final Deflater deflater;
+    private final byte[] buffer = new byte[1024];
 
     public MyCompressorOutputStream(OutputStream out) {
         this.out = out;
+        this.deflater = new Deflater(Deflater.BEST_COMPRESSION);
     }
 
     @Override
     public void write(int b) throws IOException {
-        out.write(b);
+        byte[] data = {(byte) b};
+        deflater.setInput(data);
+        while (!deflater.needsInput()) {
+            deflate();
+        }
     }
 
     @Override
@@ -22,22 +34,31 @@ public class MyCompressorOutputStream extends OutputStream {
         // 1. Write header uncompressed (first 12 bytes)
         out.write(b, 0, 12);
 
-        // 2. Compress the maze body
-        int current = b[12] & 0xFF;  // fix: unsigned and int
-        int count = 1;
-        out.write(current); // write first bit (0 or 1)
+        // 2. Compress the maze body using DEFLATE
+        deflater.setInput(b, 12, b.length - 12);
+        deflater.finish();
 
-        for (int i = 13; i < b.length; i++) {
-            int value = b[i] & 0xFF;
-            if (value == current && count < 255) {
-                count++;
-            } else {
-                out.write(count);
-                current = value;
-                count = 1;
-            }
+        while (!deflater.finished()) {
+            deflate();
         }
+    }
 
-        out.write(count); // final count
+    private void deflate() throws IOException {
+        int count = deflater.deflate(buffer);
+        if (count > 0) {
+            out.write(buffer, 0, count);
+        }
+    }
+
+    @Override
+    public void close() throws IOException {
+        deflater.end();
+        out.close();
+        super.close();
+    }
+
+    @Override
+    public void flush() throws IOException {
+        out.flush();
     }
 }

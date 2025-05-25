@@ -1,5 +1,6 @@
 package algorithms.search;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 /**
@@ -8,7 +9,7 @@ import java.util.Collections;
  * can be printed or used to analyze how the algorithm solved the problem.
  */
 
-public class Solution {
+public class Solution implements Serializable {
 
     private final ArrayList<AState> path; // list of states forming the path
 

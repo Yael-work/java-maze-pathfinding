@@ -1,11 +1,15 @@
 package algorithms.mazeGenerators;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Arrays;
 /**
  * represents a 2d maze with walls and paths.
  * includes a start and end position, and can be used as a base for search problems.
  */
 
-public class Maze {
+public class Maze implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private final int columns;
     private final int rows;
     private final int[][] map;

@@ -2,17 +2,34 @@ package IO;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.zip.Inflater;
 
+/**
+ * An enhanced decompressor that uses DEFLATE algorithm for decompression.
+ * This corresponds to the EnhancedCompressorOutputStream.
+ */
 public class MyDecompressorInputStream extends InputStream {
     private final InputStream in;
+    private final Inflater inflater;
+    private final byte[] buffer = new byte[1024];
+    private int bufferPos = 0;
+    private int bufferLen = 0;
 
     public MyDecompressorInputStream(InputStream in) {
         this.in = in;
+        this.inflater = new Inflater();
     }
 
     @Override
     public int read() throws IOException {
-        return in.read();
+        if (bufferPos >= bufferLen) {
+            bufferLen = in.read(buffer);
+            bufferPos = 0;
+            if (bufferLen == -1) {
+                return -1;
+            }
+        }
+        return buffer[bufferPos++] & 0xFF;
     }
 
     @Override
@@ -23,22 +40,32 @@ public class MyDecompressorInputStream extends InputStream {
         int bytesRead = in.read(b, 0, 12);
         if (bytesRead != 12) throw new IOException("Failed to read header");
 
-        int index = 12;
+        // 2. Read compressed data into a temporary buffer
+        byte[] compressedData = new byte[b.length * 2]; // Allocate enough space
+        int compressedSize = 0;
+        int read;
 
-        // 2. Read initial bit value (0 or 1), cast to unsigned
-        int current = in.read() & 0xFF;
-
-        // 3. Read and apply RLE counts
-        while (index < b.length) {
-            int count = in.read() & 0xFF; // read count as unsigned byte
-
-            for (int i = 0; i < count && index < b.length; i++) {
-                b[index++] = (byte) current;
-            }
-
-            current = 1 - current; // toggle between 0 and 1
+        while ((read = in.read(compressedData, compressedSize, compressedData.length - compressedSize)) != -1) {
+            compressedSize += read;
         }
 
-        return index;
+        // 3. Decompress the data
+        inflater.setInput(compressedData, 0, compressedSize);
+
+        try {
+            int decompressedSize = inflater.inflate(b, 12, b.length - 12);
+            return 12 + decompressedSize;
+        } catch (Exception e) {
+            throw new IOException("Decompression failed", e);
+        } finally {
+            inflater.end();
+        }
+    }
+
+    @Override
+    public void close() throws IOException {
+        inflater.end();
+        in.close();
+        super.close();
     }
 }
