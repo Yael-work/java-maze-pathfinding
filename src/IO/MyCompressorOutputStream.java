@@ -1,49 +1,43 @@
 package IO;
 
+import java.io.IOException;
 import java.io.OutputStream;
 
 public class MyCompressorOutputStream extends OutputStream {
-    private OutputStream out;
+    private final OutputStream out;
 
     public MyCompressorOutputStream(OutputStream out) {
         this.out = out;
     }
 
-    private int lastByte = -1;
-    private int count = 0;
-
     @Override
-    public void write(int b) {
-        try {
-            if (b == lastByte) {
-                if (count == 255) {
-                    out.write(count);
-                    out.write(0); // Write 0 for the other bit
-                    count = 0;
-                }
-                count++;
-            } else {
-                if (lastByte != -1) {
-                    out.write(count);
-                }
-                lastByte = b;
-                count = 1;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void write(int b) throws IOException {
+        out.write(b);
     }
 
     @Override
-    public void close() {
-        try {
-            if (lastByte != -1) {
-                out.write(lastByte);
+    public void write(byte[] b) throws IOException {
+        if (b.length < 12) throw new IOException("Byte array too small");
+
+        // 1. Write header uncompressed (first 12 bytes)
+        out.write(b, 0, 12);
+
+        // 2. Compress the maze body
+        int current = b[12] & 0xFF;  // fix: unsigned and int
+        int count = 1;
+        out.write(current); // write first bit (0 or 1)
+
+        for (int i = 13; i < b.length; i++) {
+            int value = b[i] & 0xFF;
+            if (value == current && count < 255) {
+                count++;
+            } else {
                 out.write(count);
+                current = value;
+                count = 1;
             }
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
+        out.write(count); // final count
     }
 }
