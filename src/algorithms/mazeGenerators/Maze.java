@@ -74,9 +74,6 @@ public class Maze implements Serializable {
         this.goalPosition = pos;
     }
     public void print() {
-        System.out.println("Maze ID: " + System.identityHashCode(this));
-        System.out.println("Start: " + startPosition);
-        System.out.println("End: " + goalPosition);
         for (int r = 0; r < rows; r++) {
             StringBuilder sb = new StringBuilder();
             for (int c = 0; c < columns; c++) {
