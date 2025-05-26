@@ -11,6 +11,7 @@ public class GeneralCheckingFunctions {
     }
 
     public static String getGithubLink(){
+        // NOTE : for part B switch to branch "PartB"
         String githubLink = "https://github.com/Yael-work/ATP-Project-PartA.git";
         return githubLink;
     }
