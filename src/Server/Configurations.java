@@ -2,6 +2,7 @@ package Server;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class Configurations {
@@ -10,8 +11,11 @@ public class Configurations {
 
     private Configurations() {
         properties = new Properties();
-        try {
-            properties.load(new FileInputStream("resources/config.properties")); //load config file
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
+            if (input == null) {
+                throw new IOException("config.properties not found in classpath.");
+            }
+            properties.load(input);
         } catch (IOException e) {
             e.printStackTrace();
         }
