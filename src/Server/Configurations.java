@@ -10,16 +10,41 @@ public class Configurations {
     private final Properties properties;
 
     private Configurations() {
-        properties = new Properties();
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
-            if (input == null) {
-                throw new IOException("config.properties not found in classpath.");
+            properties = new Properties();
+
+            // 1. try relative file path
+            try (InputStream fallbackInput = new FileInputStream("resources/config.properties")) {
+                properties.load(fallbackInput);
+                return;
+            } catch (IOException ignored) {}
+
+
+            // 2. fallback:Try classpath
+            try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
+                if (input != null) {
+                    properties.load(input);
+                    return;
+                }
+            } catch (IOException ignored) {}
+
+
+            // 3. fallback: Absolute path from system property or environment variable
+            String externalPath = System.getProperty("config.path");
+            if (externalPath == null || externalPath.isEmpty()) {
+                externalPath = System.getenv("CONFIG_PATH");
             }
-            properties.load(input);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            if (externalPath != null && !externalPath.isEmpty()) {
+                try (InputStream externalInput = new FileInputStream(externalPath)) {
+                    properties.load(externalInput);
+                    return;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            System.err.println("ERROR: config.properties not found in classpath, 'resources/', or external path.");
         }
-    }
 
     public static Configurations getInstance() {
         if (instance == null) {
