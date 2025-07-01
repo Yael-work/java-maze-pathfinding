@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.example.mvvmmazegui.View.*?>
+
+<BorderPane fx:controller="org.example.mvvmmazegui.View.MyViewController" xmlns:fx="http://javafx.com/fxml">
+    <top>
+        <MenuBar>
+            <Menu text="File">
+                <MenuItem text="New Maze" onAction="#newMaze"/>
+                <MenuItem text="Save" onAction="#saveMaze"/>
+                <MenuItem text="Load" onAction="#loadMaze"/>
+                <MenuItem text="Toggle Music" onAction="#toggleMusic"/>
+                <MenuItem text="Restart Maze" onAction="#onRestartClick"/>
+            </Menu>
+
+            <Menu text="View">
+                <MenuItem text="Reset Zoom" onAction="#resetZoom"/>
+                <MenuItem text="Toggle Maze Animation" onAction="#toggleAnimation"/>
+            </Menu>
+
+            <Menu text="Help">
+                <MenuItem text="How to Play" onAction="#showHelp"/>
+            </Menu>
+
+            <Menu text="Options">
+                <MenuItem text="Properties - Algorithm Configuration" onAction="#openAlgorithmConfig"/>
+            </Menu>
+
+            <Menu text="Exit" onAction="#exitApp">
+                <MenuItem text="Exit" onAction="#exitApp"/>
+            </Menu>
+
+            <Menu text="About">
+                <MenuItem text="About" onAction="#showAbout"/>
+            </Menu>
+
+        </MenuBar>
+    </top>
+
+    <center>
+        <StackPane>
+            <VBox fx:id="startPane" alignment="CENTER" spacing="20" style="-fx-background-color: rgba(255,255,255,1.0); -fx-padding: 40;">
+                <Label text="Enter Maze Size" style="-fx-font-size: 18px;"/>
+                <HBox spacing="10" alignment="CENTER">
+                    <Label text="Rows:"/>
+                    <TextField fx:id="rowsField" promptText="e.g. 50" maxWidth="80"/>
+                    <Label text="Cols:"/>
+                    <TextField fx:id="colsField" promptText="e.g. 50" maxWidth="80"/>
+                </HBox>
+                <Button text="Start Maze" onAction="#startMazeWithInput" style="-fx-font-size: 16px;"/>
+            </VBox>
+
+            <VBox fx:id="mazeContainer" alignment="CENTER" spacing="10" visible="false" managed="false">
+                <MazeDisplayer fx:id="mazeDisplayer" width="600" height="600"/>
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="Undo" onAction="#onUndoClick"/>
+                    <Button text="Redo" onAction="#onRedoClick"/>
+                    <Button text="Hint" onAction="#onHintClick"/>
+                </HBox>
+            </VBox>
+        </StackPane>
+    </center>
+    <bottom>
+        <HBox spacing="20" alignment="CENTER">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button text="Solve Maze Toggle" onAction="#solveMaze"/>
+            <Label fx:id="stepCounterLabel" text="Steps: 0"/>
+            <Label fx:id="timerLabel" text="Time: 0s"/>
+        </HBox>
+    </bottom>
+</BorderPane>
