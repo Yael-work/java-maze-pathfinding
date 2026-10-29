@@ -9,33 +9,33 @@ together with a course partner.
 > [`master`](../../tree/master) (Part A), [`partB`](../../tree/partB), and
 > [`partC`](../../tree/partC).
 
-## Part A — Algorithms (`master`)
+## Part A: Algorithms (`master`)
 
-The foundation: maze generation and graph search behind clean abstract interfaces.
+The foundation is maze generation and graph search behind clean abstract interfaces.
 
-- **Generators** — an empty generator, a simple random generator, and `MyMazeGenerator`,
+- **Generators:** an empty generator, a simple random generator, and `MyMazeGenerator`,
   which carves a solvable maze using a randomized depth-first (backtracker) approach and
   guarantees reachable start and goal positions.
-- **Search** — Breadth-First Search, Depth-First Search, and Best-First Search, all sharing
+- **Search:** Breadth-First Search, Depth-First Search, and Best-First Search, all sharing
   a common `ASearchingAlgorithm` base and returning a reconstructed solution path. A
   `SearchableMaze` adapter exposes a maze to the generic search layer.
-- **Tests** — JUnit coverage for the generators and the search algorithms, including null
+- **Tests:** JUnit coverage for the generators and the search algorithms, including null
   and invalid-input handling.
 
-## Part B — Client-Server (`partB`)
+## Part B: Client-Server (`partB`)
 
 The algorithms become a networked service.
 
 - A configurable, **thread-pooled server** that handles multiple clients concurrently,
-  with two strategies: generate a maze and solve a given maze.
+  with two strategies: generate a maze, and solve a given maze.
 - A **client** that talks to the server over sockets using a pluggable client strategy.
 - Two **compression streams** for sending mazes over the network: a run-length encoder
   (`SimpleCompressorOutputStream`) and a DEFLATE-based one (`MyCompressorOutputStream`),
   with matching decompressors and JUnit tests.
-- Runtime configuration (thread-pool size, generator and solver choice) via a properties
-  file.
+- Runtime configuration (thread-pool size, generator and solver choice) through a
+  properties file.
 
-## Part C — JavaFX Desktop Game (`partC`)
+## Part C: JavaFX Desktop Game (`partC`)
 
 A graphical client built on a clean **MVVM** architecture (Model, View, ViewModel) and
 packaged with Maven.
@@ -47,7 +47,7 @@ packaged with Maven.
 
 ## Tech
 
-Java · JUnit · Maven · JavaFX · sockets · DEFLATE / RLE compression · MVVM
+Java, JUnit, Maven, JavaFX, sockets, DEFLATE and RLE compression, MVVM.
 
 ## Running it
 
